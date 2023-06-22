@@ -35,30 +35,34 @@
 <body>
 	<div class="login-main" v-cloak id="app">
 
-		<div class="language">
+		<!-- <div class="language">
 			<label>{{lang.search[0]}}</label>
 			<select name="langSel" v-model="langSel" @change="selectLang();" validate="언어를 선택해주세요!">
 				<option value="1">Korea</option>
 				<option value="2">English</option>
 			</select>
-		</div>
+		</div> -->
 
 		<div class="logo">
-			<img src="img/logo.png" alt="(주)엔켐">
+			<img src="img/logo.png" alt="진향화학로고">
+		</div>
+
+		<div class="setting">
+			<button onclick="location.href='setting.html'">{{lang.button[0]}}</button>
 		</div>
 
 		<!-- <form> -->
-			<div class="box company">
+			<!-- <div class="box company">
 				<p class="title">
 					{{lang.search[1]}}
 				</p>
 				<div class="select">
 					<select name="BizUnit" v-model="BizUnit" @change="selectedcompany();" validate="required:단위를 선택해주세요!">
-						<option value="">- 선택 -</option>
+						<option value="">{{defaultSel}}</option>
 						<option v-for="row in rows.BizUnitList" :value="row.BizUnit">{{row.BizUnitName}}</option>
 					</select>
 				</div>
-			</div>
+			</div> -->
 
 			<div class="box id">
 				<p class="title">
@@ -85,7 +89,7 @@
 				<label><input type="checkbox" id="id_chkBox" name="IsSaveId" v-model="isSaveIds" value="1" true-value="1" false-value="0" gx-default="0" @click="saveId();">{{lang.search[4]}}</label>
 			</div>
 
-			<button class="btn-style-01" @click="login();">{{lang.button[0]}}</button>
+			<button class="btn-style-01" @click="login();">{{lang.button[1]}}</button>
 
 		<!-- </form> -->
 
