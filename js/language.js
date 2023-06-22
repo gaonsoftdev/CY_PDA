@@ -14,7 +14,7 @@ GX.LANGS = {
         login: {
             title: '로그인',
             search: ['언어', '사업단위','아이디','비밀번호','아이디 저장'],
-            button: ['로그인'],
+            button: ['환경설정','로그인'],
         },
         main: {
             title: '메인',

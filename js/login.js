@@ -10,6 +10,7 @@ var app = new Vue({
 		},
 		lang: '',
 		langSel: '',
+		defaultSel: '',
 		BizUnit:'',
 		userId:'',
 		userPwd:'',
@@ -105,6 +106,7 @@ var app = new Vue({
 		},
 		selectLang: function () {
 			this.lang = GX.LANGS[this.langSel]['login'];
+			this.defaultSel = GX.LANGS[this.langSel].defaultSel;
 		},
 		login: function(){
 			var vThis = this;
@@ -237,7 +239,7 @@ var app = new Vue({
 			GAON.AppBridge.requestApp('phoneNumber','','responseApp');
 		}
 
-		this.selectedcompany();
+		// this.selectedcompany();
 	},
 	created(){
 		
