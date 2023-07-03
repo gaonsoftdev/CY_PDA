@@ -2,15 +2,20 @@ var html5QrCode = null;
 var app = new Vue({
 	el: '#app',
 	data:{
-		settingItems:{dsn:'', work:'', serverAddr:'', anotherDsn:''},
+		settingItems:{dsn:'', work:'KNIC DEV', serverAddr:'', anotherDsn:''},
 		pageUrls:GX._DATAS_.pageUrls,
 		params: GX.getParameters(),
 		rows: [],
 		isAllowedCamera: (typeof navigator.getUserMedia == 'function'), // scanner 관련
 		isScanning: false, // scanner 관련
-		isReadyCamera: false // scanner 관련
+		isReadyCamera: false, // scanner 관련
+		lang: '',
+		langSel: '',
 	},
-	methods:{
+	methods: {
+		selectLang: function () {
+			this.lang = GX.LANGS[this.langSel]['setting'];
+		},
 		save: function(){
 			for(let i in this.settingItems){
 				if(this.settingItems.hasOwnProperty(i)){
@@ -18,6 +23,7 @@ var app = new Vue({
 					GX.Cookie.set('DBName', document.querySelector('[name="DBName"]').value, 365*100);
 				}
 			}
+			GX.Cookie.set('lang', this.langSel, 365 * 100);//언어
 			history.back();
 		},
 		setInfo: function(){
@@ -180,7 +186,14 @@ var app = new Vue({
 		const vThis = this;
 		//GX.SpinnerBootstrap.init();
 		GX.SpinnerBootstrap.init('loading', 'loading-wrap', '<div class="container"><img src="img/loading.gif" alt=""><span>로딩중입니다...</span></div>');
-			
+		
+		if (GX.Cookie.get('lang') == null || GX.Cookie.get('lang') == '') {
+			this.langSel = '1';
+			this.selectLang();
+		} else {
+			this.langSel = GX.Cookie.get('lang');
+			this.selectLang();
+		}
 
 		for(let i in this.settingItems){
 			let key = 'gx_' + i;

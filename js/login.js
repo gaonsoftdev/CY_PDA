@@ -21,7 +21,7 @@ var app = new Vue({
 		autoSettings: function(){
 			let sDsn = 'knicdev_oper';
 			let sWork = 'KNIC DEV';
-			let serverAddr = 'http://211.51.198.173';
+			let serverAddr = 'http://125.135.74.242';
 
 			console.log('mode',this.params.mode, GX._DATAS_.ajaxHeaders)
 			//let settingItems = {dsn:'knicdev_oper', work:'KNIC DEV', serverAddr:'http://192.168.205.20:8111', anotherDsn:''};
@@ -112,11 +112,11 @@ var app = new Vue({
 			var vThis = this;
 			let param = {
 				UserID : this.userId,
-				UserPW : this.userPwd
+				LoginPwd : hex_sha512(this.userPwd).toUpperCase(),
 			};
 			
 			GX._METHODS_
-			.setMethodId('Genuine.enModuleName.BisEmpInPDA_en/CheckPasswork')
+			.setMethodId('Genuine.cycModuleName.BisWSIAPITEST_cyc/Login')
 			.ajax([param], [function(data){
 				
 				if(data[0] != null){
@@ -173,7 +173,8 @@ var app = new Vue({
 				}
 			}], true);
 		},
-		saveId: function(){
+		saveId: function () {
+			alert(event.target.checked);
 			if(event.target.checked){
 				if(this.userId.trim().length > 0) GX.Storage.set('gx_saveId', this.userId);
 			}

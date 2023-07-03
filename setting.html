@@ -39,20 +39,18 @@
 			<div class="img" onclick="location.href='login.html'">
 				<img src="img/btn_back.png">
 			</div>
-			<span>환경 설정</span>
+			<span>{{lang.title}}</span>
 		</div>
 		<div class="setting-main">
 			
 				<div class="set-txt">
-					<p>
-						네트워크 통신 환경을 설정합니다.<br>
-						통신할 서버의 접속 정보를 입력하세요.
+					<p v-html="lang.text">
 					</p>
 				</div>
 
 				<div class="box">
 					<p class="title">
-						데이터 연결(DSN)
+						{{lang.search[0]}}
 					</p>
 					<div class="setting-value">
 						<input type="text" name="dsn" v-model="settingItems.dsn"  @click="setInfo();">
@@ -61,15 +59,18 @@
 
 				<div class="box">
 					<p class="title">
-						언어
+						{{lang.search[1]}}
 					</p>
 					<div class="setting-value">
-						<input type="text" name="work" v-model="settingItems.work" >
+						<select name="langSel" v-model="langSel" @change="selectLang();" >
+							<option value="1">Korea</option>
+						</select>
+						<input type="hidden" name="work" v-model="settingItems.work" >
 					</div>
 				</div>
 				<div class="box">
 					<p class="title">
-						서버주소
+						{{lang.search[2]}}
 					</p>
 					<div class="setting-value">
 						<input type="text" name="serverAddr" v-model="settingItems.serverAddr" >
@@ -78,21 +79,21 @@
 
 				<div class="box company">
 					<p class="title">
-						서버선택
+						{{lang.search[3]}}
 					</p>
-					<div class="input-data">
+					<div class="setting-value">
 						<select name="DBName">
-							<option value="JPDCPTSDSN">운영</option>
-							<option value="JPDCPTSDSN_221101">개발</option>
+							<option value="JPDCPTSDSN">Live</option>
+							<!-- <option value="JPDCPTSDSN_221101">개발</option> -->
 						</select>
 					</div>
 				</div>
 
 				<div class="test-row">
-					<button class="btn-style-02" @click="runScanner();">바코드 스캔</button>
+					<!-- <button class="btn-style-02" @click="runScanner();">바코드 스캔</button> -->
 				</div>
 
-				<button class="btn-style-01" @click="save();">저장하기</button>
+				<button class="btn-style-01" @click="save();">{{lang.button[0]}}</button>
 
 			
 		</div>

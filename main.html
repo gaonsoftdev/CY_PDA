@@ -36,20 +36,19 @@
     <div v-cloak id="app">
         <div class="top">
             <div class="back" @click="logout();">
-                <button class="btn-back" v-if="langSel=='1'">이전</button>
-                <button class="btn-back" v-if="langSel=='2'">Back</button>
+                <img src="img/btn_back.png">
             </div>
-            <span class="title">{{lang.title}}</span>
+            <span>{{lang.title}}</span>
         </div>
         <div class="main">
         
             <div class="menu" v-for="idx in clusterIndexes">
-                <div v-for="row in clustering[idx]">
-                    <a href="#" class="list" @click="goPage(row.pageUrl);">
-                        <img :src="row.iconImg" alt="">
+                <div class="list" v-for="row in clustering[idx]">
+                    <img :src="row.iconImg" alt="">
+                    <a href="#" @click="goPage(row.pageUrl);">
                         <p class="name">{{row.subTitle}}</p>
-                        <span class="ic-right"></span>
                     </a>
+                    <span class="ic-right"></span>
                 </div>
             </div>
         

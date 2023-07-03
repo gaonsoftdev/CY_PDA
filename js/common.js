@@ -24,10 +24,10 @@ GX._DATAS_ = {
 		// }
 		get:'{certId:KNICDEV,certKey:KNIC,dsnOper:?,dsnBis:?,dsn:?,workingTag:,securityType:1,isDebug:0,companySeq:?,languageSeq:1,serviceId:IsStoredProcedure,methodId:?,hostComputername:,hostIPAddress:,userId:?,userPwd:,empSeq:?}',
 		post:{
-			"certId":"KEY_1",
-			"certKey":"aaa",
-			"dsnOper":"en_oper",
-			"dsnBis":"en_bis",
+			"certId":"PDAAPI",
+			"certKey":"jcbwE9ejFW9tkcpDGBmX",
+			"dsnOper":"cyc_oper",
+			"dsnBis":"cyc_bis",
 			// "dsn":"",
 			"securityType":0,
 			"companySeq":1, //1
@@ -136,8 +136,8 @@ GX._METHODS_ = {
 			let dsn = GX.Storage.get('gx_dsn');
 			let anotherDsn = (methodId == 'Login') ? dsn : GX.Storage.get('gx_anotherDsn');
 
-			this.setSecurityProperty('dsnOper', 'en_oper');
-			this.setSecurityProperty('dsnBis', 'en_bis');
+			this.setSecurityProperty('dsnOper', 'cyc_oper');
+			this.setSecurityProperty('dsnBis', 'cyc_bis');
 			// this.setSecurityProperty('dsn', anotherDsn); // dsn : knicdev_bis or dsn : knicdev_oper
 		}
 

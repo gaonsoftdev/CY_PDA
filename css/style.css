@@ -44,6 +44,14 @@ body {
   display: none;
 }
 
+.text-c {
+  text-align: center;
+}
+
+.text-r {
+  text-align: right;
+}
+
 button {
   font-family: "AppleSDGothicNeoB";
   border: 0;
@@ -64,6 +72,12 @@ input[type=text] {
   font-size: 1.5rem;
   padding: 0 1rem;
   width: 100%;
+}
+input[type=text]:-moz-read-only {
+  background-color: #EEEEEE;
+}
+input[type=text]:read-only {
+  background-color: #EEEEEE;
 }
 
 select {
@@ -104,14 +118,6 @@ table tbody tr:active {
 }
 table tbody td {
   text-align: left;
-  padding: 0 1rem;
-}
-table tbody .text-c {
-  text-align: center;
-  padding: 0 1rem;
-}
-table tbody .text-r {
-  text-align: right;
 }
 
 .table {
@@ -122,7 +128,7 @@ table tbody .text-r {
 input[type=checkbox] {
   width: 2rem;
   height: 2rem;
-  border: 0.1rem solid #3C4784;
+  border: 0.1rem solid #153970;
   border-radius: 0.6rem;
   background-color: #fff;
   position: relative;
@@ -158,6 +164,10 @@ input[type=checkbox]:checked::before {
   line-height: 1.5;
 }
 
+button {
+  font-size: 1.4rem;
+}
+
 .btn-style-01 {
   background-color: #153970;
   width: 100%;
@@ -184,16 +194,70 @@ input[type=checkbox]:checked::before {
 .btn-style-03 {
   width: 5rem;
   height: 3.4rem;
+  font-size: 1.3rem;
   line-height: 3.4rem;
   background-color: #2B5D8F;
   border-radius: 1rem;
   color: #fff;
 }
 
-.note {
-  width: 2.6rem;
-  height: 2.6rem;
-  background-image: url(../img/ic_note.png);
+.btn-style-04 {
+  background-color: #153970;
+  width: 100%;
+  height: 4rem;
+  color: #fff;
+  border: none;
+  border-radius: 1.4rem;
+  font-size: 1.4rem;
+  line-height: 1;
+}
+.btn-style-04:disabled {
+  background-color: #CCCCCC;
+  color: #EEEEEE;
+}
+
+.btn-style-05 {
+  width: 10rem;
+  height: 4rem;
+  border-radius: 2rem;
+  font-size: 1.4rem;
+  color: #F4575C;
+  background-color: #fff;
+  border: 2px solid #F4575C;
+}
+
+.btn-style-06 {
+  width: 22rem;
+  height: 4rem;
+  background-color: #153970;
+  border-radius: 1.4rem;
+  color: #fff;
+}
+
+.btn-style-07 {
+  width: 8rem;
+  height: 4rem;
+  background-color: #F4575C;
+  border-radius: 1.4rem;
+  color: #fff;
+}
+
+.btn-style-08 {
+  width: 24rem;
+  height: 4rem;
+  background-color: #153970;
+  border-radius: 1.4rem;
+  color: #fff;
+}
+
+.btn-search {
+  width: 3.4rem;
+  height: 3.4rem;
+  background-color: #153970;
+  background-image: url(../img/ic_search.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 1rem;
 }
 
 .main {
@@ -203,6 +267,7 @@ input[type=checkbox]:checked::before {
 .top {
   display: flex;
   align-items: center;
+  height: 4rem;
   padding: 0.5rem 1rem;
   font-size: 1.4rem;
   text-align: left;
@@ -386,6 +451,9 @@ input[type=checkbox]:checked::before {
 .setting-main .title {
   margin-bottom: 0;
 }
+.setting-main .setting-value input[type=text] {
+  padding: 0;
+}
 .setting-main .setting-value input[type=text], .setting-main .setting-value select {
   width: 100%;
   height: 3.4rem;
@@ -478,8 +546,20 @@ input[type=checkbox]:checked::before {
   background-color: #F1F4F9;
   padding: 1rem;
 }
-.data-container .code-help input[type=text] {
-  background-color: #F3FBEC;
+
+.registration {
+  background-color: #F1F4F9;
+  padding: 0 1rem;
+  min-height: 51rem;
+  margin-bottom: 1.5rem;
+}
+
+.row-wrap {
+  padding: 2rem 0;
+  border-bottom: 1px solid #E4E8EE;
+}
+.row-wrap:last-child {
+  border-bottom: 0;
 }
 
 .row {
@@ -521,6 +601,23 @@ input[type=checkbox]:checked::before {
 .row .field.search .input input[type=text] {
   width: 100%;
 }
+.row .field.ch-search {
+  display: flex;
+  justify-content: space-between;
+}
+.row .field.ch-search .input {
+  width: calc(100% - 4.4rem);
+}
+.row .field.ch-search .input input[type=text] {
+  width: 100%;
+}
+.row .field.num input[type=text] {
+  width: 80%;
+}
+.row .field.num .unit {
+  line-height: 3.4rem;
+  margin-left: 0.6rem;
+}
 .row .field .scan {
   position: relative;
 }
@@ -539,21 +636,78 @@ input[type=checkbox]:checked::before {
   color: #fff;
 }
 
+.essential {
+  display: inline-block;
+  position: relative;
+}
+.essential::before {
+  content: "*";
+  position: absolute;
+  top: 0;
+  left: 0.5rem;
+  color: #F4575C;
+}
+
 .table-container {
   padding: 1.5rem 1rem 1.5rem;
 }
-.table-container .btn-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 0 1rem;
-  margin-bottom: 1.5rem;
-}
 .table-container .table {
-  height: 40.6rem;
+  height: 40.8rem;
+}
+.table-container .table.th-01 {
+  height: 44.1rem;
+}
+.table-container .table.th-02 {
+  height: 39.2rem;
+}
+.table-container .table.th-03 {
+  height: 45.1rem;
+}
+.table-container .table.col-num tr td:nth-child(3) {
+  min-width: 6rem;
+}
+.table-container .table.col-num tr td:nth-child(4) {
+  min-width: 6rem;
+}
+
+.note {
+  width: 2.6rem;
+  height: 2.6rem;
+  margin: 0 1rem;
+  background-image: url(../img/ic_note.png);
+}
+
+.not-match {
+  color: #F4575C;
 }
 
 .btn-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1rem;
+}
+
+.btn-forwarding-row {
   padding: 0 1rem 1.5rem;
+  display: none;
+}
+
+/*출고처리*/
+.forwarding .data-container {
+  display: none;
+}
+.forwarding .table-container {
+  padding-top: 1rem;
+}
+.forwarding .table.th-01 {
+  height: 50rem;
+}
+.forwarding .btn-row {
+  display: none;
+}
+.forwarding .btn-forwarding-row {
+  display: flex;
+  justify-content: space-between;
 }
 
 /*modal*/
@@ -598,40 +752,20 @@ input[type=checkbox]:checked::before {
   background-color: transparent;
 }
 
+/*code-help*/
+.code-help input[type=text] {
+  background-color: #F3FBEC;
+}
+
 .code-help-con {
   position: fixed;
-  background-color: #D9E0E8;
+  background-color: #E4E8EE;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
   z-index: 200;
   display: none;
-}
-.code-help-con .table {
-  margin-bottom: 1.5rem;
-}
-.code-help-con .btn-row {
-  padding: 0;
-  margin-bottom: 0;
-}
-.code-help-con .btn-row button {
-  color: white;
-  border-radius: 1.4rem;
-  text-align: center;
-  font-size: 1.7rem;
-}
-.code-help-con .btn-row .left {
-  height: 4rem;
-  line-height: 4rem;
-  background-color: #F4575C;
-  width: 10rem;
-}
-.code-help-con .btn-row .right {
-  height: 4rem;
-  line-height: 4rem;
-  background-color: #153970;
-  width: 23rem;
 }
 
 .pagination-row {
@@ -640,19 +774,21 @@ input[type=checkbox]:checked::before {
   margin-bottom: 1rem;
 }
 .pagination-row .pagination {
+  display: flex;
+  align-items: center;
   font-size: 0;
 }
 .pagination-row .pagination .btn-prev {
-  width: 2rem;
-  height: 2rem;
+  width: 3rem;
+  height: 3rem;
   background-image: url(../img/ic_left.png);
-  margin: 7px 14px 0 0;
+  margin: 0 14px 0 0;
 }
 .pagination-row .pagination .btn-next {
-  width: 2rem;
-  height: 2rem;
+  width: 3rem;
+  height: 3rem;
   background-image: url(../img/ic_right.png);
-  margin: 7px 0 0 14px;
+  margin: 0 0 0 14px;
 }
 .pagination-row .pagination .num-box {
   display: inline-block;
@@ -685,4 +821,40 @@ input[type=checkbox]:checked::before {
   border-radius: 1rem;
   padding: 0 1rem;
   border: 1px solid #CCCCCC;
+}
+
+/*loading*/
+.loading {
+  height: 100%;
+}
+
+.lds-dual-ring {
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+}
+
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 50px;
+  height: 50px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 8px solid #fff;
+  border-color: #6162c1 transparent #b39ee5 transparent;
+  animation: lds-dual-ring 0.8s linear infinite;
+}
+
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
