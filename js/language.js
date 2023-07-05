@@ -31,17 +31,17 @@ GX.LANGS = {
             pageUrls2:'물류관리',
             pageUrls3:'용기관리',
         },
-        materialsInput: {
+        purchaseOrderItemInquiry: {
             menu:'자재투입',
-            title: '작업지시',
-            search: ['일자', '워크센터'],
-            button: ['저장'],
-            column: ['품명', 'Lot No', '선택', '수량'],
+            title: '구매발주품목 조회',
+            search: ['발주일', '거래처', '자재번호'],
+            button: ['조회'],
+            column: ['번호', '발주일', '거래처', '발주번호', '자재번호', '자재명', '규격', '수량'],
         },
-        processInformation: {
-            title: '공정정보',
-            search: [],
-            button: ['선택'],
+        purchaseDeliveryProcessing: {
+            title: '구매납품처리 ',
+            search: ['발주일', '거래처', '자재번호', '자재명', '규격', '납품일', '수량', '입고창고', '거래처Lot No.'],
+            button: ['납품처리'],
             column: ['공정코드', '공정명', '선택'],
         },
         inputItem: {

@@ -43,11 +43,9 @@
         <div class="main">
         
             <div class="menu" v-for="idx in clusterIndexes">
-                <div class="list" v-for="row in clustering[idx]">
+                <div class="list" v-for="row in clustering[idx]" @click="goPage(row.pageUrl);">
                     <img :src="row.iconImg" alt="">
-                    <a href="#" @click="goPage(row.pageUrl);">
-                        <p class="name">{{row.subTitle}}</p>
-                    </a>
+                    <p class="name">{{row.subTitle}}</p>
                     <span class="ic-right"></span>
                 </div>
             </div>

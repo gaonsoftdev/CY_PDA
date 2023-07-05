@@ -62,8 +62,7 @@ GX._DATAS_ = {
 	},
 	pageUrls:{
 		'1':{link:'subMain.html?title=생산공정&pageUrl=pageUrls1', icon:'img/ic_mainmenu_01.png', groupTitle:'메인메뉴', subTitle:'생산공정'},
-		'2':{link:'subMain.html?title=물류관리&pageUrl=pageUrls2', icon:'img/ic_mainmenu_02.png', groupTitle:'메인메뉴', subTitle:'물류관리'}, 
-		'3':{link:'subMain.html?title=용기관리&pageUrl=pageUrls3', icon:'img/ic_mainmenu_03.png', groupTitle:'메인메뉴', subTitle:'용기관리'}, 
+		'2':{link:'purchaseOrderItemInquiry.html', icon:'img/ic_mainmenu_02.png', groupTitle:'메인메뉴', subTitle:'구매납품입력'}, 
 		// '4':{link:'specificationReceiptProcessing.html', icon:'img/ic_mainmenu_04.png', groupTitle:'제품추적관리', subTitle:'명세입고처리'}, 
 		// '5':{link:'otherShipmentProcessing.html', icon:'img/ic_mainmenu_05.png', groupTitle:'제품추적관리', subTitle:'기타출고처리'},
 		// '6':{link:'reworkProcessing.html', icon:'img/ic_mainmenu_06.png', groupTitle:'제품추적관리', subTitle:'재작업'}, 

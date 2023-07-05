@@ -116,6 +116,9 @@ table thead {
 table tbody tr:active {
   background-color: #D5E1FF;
 }
+.active{
+  background-color: #D5E1FF;
+}
 table tbody td {
   text-align: left;
 }
@@ -765,7 +768,7 @@ button {
   top: 0;
   left: 0;
   z-index: 200;
-  display: none;
+  /* display: none; */
 }
 
 .pagination-row {
