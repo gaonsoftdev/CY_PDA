@@ -8,7 +8,7 @@ var app = new Vue({
 		params: GX.getParameters(),
 		clusterIndexes:[],
 		clustering: {},
-		menu: [{PgmMinorSeq:'1'}, {PgmMinorSeq:'2'}, {PgmMinorSeq:'3'}],
+		menu: [{PgmMinorSeq:'1'}, {PgmMinorSeq:'2'}, {PgmMinorSeq:'3'}, {PgmMinorSeq:'4'}, {PgmMinorSeq:'5'}, {PgmMinorSeq:'6'}],
 		lang: '',
 		langSel: '',
 	},

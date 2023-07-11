@@ -17,7 +17,7 @@
 	<!--# 페이지 로드시마다 페이지를 캐싱하지 않습니다. (HTTP 1.1)
     출처: https://coding-restaurant.tistory.com/339 [코딩맛집:티스토리]-->
 
-	<title>구매발주품목 조회</title>
+	<title>재고실사등록</title>
 	<link rel="stylesheet" href="css/setup.css?v=20230414">
 	<link rel="stylesheet" href="css/style.css?v=20230414">
 	<link rel="stylesheet" href="css/date_picker.css?v=20230414">
@@ -36,7 +36,7 @@
 
 <body>
 	<div v-cloak id="app">
-		<div page-layer="purchaseOrderItemInquiry">
+		<div page-layer="inventoryRegistration">
 
 			<div class="top data-page">
 				<div>
@@ -49,150 +49,149 @@
 					<img src="img/home.png">
 				</a>
 			</div>
-			<div class="data-container">
-				<div class="row">
-					<p class="c-name">{{lang.search[0]}}</p>
-					<div class="field date">
-						<input type="text" name="PODateFr" v-model.trim="queryForm.PODateFr" value="" validate="required:일자를 입력해주세요!"
-							gx-datepicker="queryForm.PODateFr" gx-default="" readonly>
-						-
-						<input type="text" name="PODateTo" v-model.trim="queryForm.PODateTo" value="" validate="required:일자를 입력해주세요!"
-							gx-datepicker="queryForm.PODateTo" gx-default="" readonly>
-					</div>
-				</div>
-				<div class="row">
-					<p class="c-name">{{lang.search[1]}}</p>
-					<div class="field">
-						<input type="text" v-model="queryForm.CustSeq" gx-scanner="Y" >
-					</div>
-				</div>
-				<div class="row">
-					<p class="c-name">{{lang.search[2]}}</p>
-					<div class="field search">
-						<div class="input">
-							<input type="text" v-model="queryForm.ItemNo" gx-scanner="Y">
-						</div>
-						<button class="btn-style-03" @click="POsel();">{{lang.button[0]}}</button>
-					</div>
-				</div>
-			</div>
-			<div class="table-container">
-				<div class="table">
-					<table>
-						<thead>
-							<tr>
-								<td>{{lang.column[0]}}</td>
-								<td>{{lang.column[1]}}</td>
-								<td>{{lang.column[2]}}</td>
-								<td>{{lang.column[3]}}</td>
-								<td>{{lang.column[4]}}</td>
-								<td>{{lang.column[5]}}</td>
-								<td>{{lang.column[6]}}</td>
-								<td>{{lang.column[7]}}</td>
-							</tr>
-						</thead>
-						<tbody v-for="(row, index) in rows.ItemList">
-							<tr @click="purchaseDeliveryProcessing(index);">
-								<td class="text-c">{{index+1}}</td>
-								<td class="text-c">{{row.PODate}}</td>
-								<td class="text-c">{{row.CustName}}</td>
-								<td class="text-c">{{row.PONo}}</td>
-								<td >{{row.ItemNo}}</td>
-								<td >{{row.ItemName}}</td>
-								<td >{{row.Spec}}</td>
-								<td class="text-r">{{row.Qty}}</td>
-							</tr>
-							
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-
-		<div page-layer="purchaseDeliveryProcessing">
-			<div class="top data-page">
-				<div>
-					<div class="img" @click="purchaseOrderItemInquiry();">
-						<img src="img/btn_back.png">
-					</div>
-					<span>{{lang.title}} [{{queryForm2.PONo}}]</span>
-				</div>
-				<a onclick="history.back();">
-					<img src="img/home.png">
-				</a>
-			</div>
 			<div class="registration">
 				<div class="row-wrap">
 					<div class="row">
-						<p class="c-name">{{lang.search[0]}}</p>
-						<div class="field date">
-							<input type="text" name="PODate" v-model="queryForm2.PODate" readonly>
-						</div>
-					</div>
-			
-					<div class="row">
-						<p class="c-name">{{lang.search[1]}}</p>
+						<p class="c-name">Lot No.</p>
 						<div class="field">
-							<input type="text" name="CustName" v-model="queryForm2.CustName" readonly>
-						</div>
-					</div>
-					<div class="row">
-						<p class="c-name">{{lang.search[2]}}</p>
-						<div class="field">
-							<input type="text" name="ItemNo" v-model="queryForm2.ItemNo" readonly>
-						</div>
-					</div>
-					<div class="row">
-						<p class="c-name">{{lang.search[3]}}</p>
-						<div class="field">
-							<input type="text" name="ItemName" v-model="queryForm2.ItemName" readonly>
-						</div>
-					</div>
-					<div class="row">
-						<p class="c-name">{{lang.search[4]}}</p>
-						<div class="field">
-							<input type="text" name="Spec" v-model="queryForm2.Spec" readonly>
+							<div class="input scan">
+								<input type="text" name="LotNo" v-model="queryForm.LotNo" gx-scanner="Y">
+							</div>
 						</div>
 					</div>
 				</div>
 				<div class="row-wrap">
 					<div class="row">
-						<p class="c-name">{{lang.search[5]}}<span class="essential"></span></p>
-						<div class="field date">
-							<input type="text" name="DelvDate" v-model="queryForm2.DelvDate">
-						</div>
-					</div>
-			
-					<div class="row">
-						<p class="c-name">{{lang.search[6]}}<span class="essential"></span></p>
-						<div class="field num">
-							<input class="text-r" type="text" name="Qty" v-model="queryForm2.Qty">
-							<span class="unit">KG</span>
-						</div>
-					</div>
-			
-					<div class="row">
-						<p class="c-name">{{lang.search[7]}}<span class="essential"></span></p>
+						<p class="c-name">품명</p>
 						<div class="field code-help">
-							<input type="text" name="WHName" v-model="queryForm2.WHName" @click="openCodeHelp();" readonly>
+							<input type="text" name="ItemName" v-model="queryForm.ItemName" readonly @click="openCodeHelp();">
+						</div>
+					</div>
+					<div class="row">
+						<p class="c-name">품번</p>
+						<div class="field">
+							<input type="text" v-model="queryForm.ItemNo" readonly>
+						</div>
+					</div>
+					<div class="row">
+						<p class="c-name">규격</p>
+						<div class="field">
+							<input type="text" v-model="queryForm.Spec" readonly>
 						</div>
 					</div>
 				</div>
 				<div class="row-wrap">
 					<div class="row">
-						<p class="c-name">{{lang.search[8]}}</p>
-						<div class="field">
-							<input type="text" name="LotNo" v-model="queryForm2.LotNo">
+						<p class="c-name">처리일<span class="essential"></span></p>
+						<div class="field date">
+							<input type="text" name="StkDate" v-model.trim="queryForm.StkDate" value="" validate="required:일자를 입력해주세요!"
+							gx-datepicker="queryForm.StkDate" gx-default="" readonly>
+						</div>
+					</div>
+			
+					<div class="row">
+						<p class="c-name">실사수량<span class="essential"></span></p>
+						<div class="field num">
+							<input class="text-r" type="text" v-model="queryForm.RealQty" gx-scanner="Y">
+							<span class="unit" gx-scanner="Y">M</span>
+						</div>
+					</div>
+		
+					<div class="row">
+						<p class="c-name">창고<span class="essential"></span></p>
+						<div class="field code-help">
+							<input type="text" name="WHName" v-model="queryForm.WHName" gx-scanner="Y" readonly @click="openCodeHelp();">
 						</div>
 					</div>
 				</div>
+				
 			</div>
 			<div class="btn-row">
-				<button class="btn-style-04" @click="save();">{{lang.button[0]}}</button>
+				<button class="btn-style-04" @click="save();">실사등록</button>
 			</div>
-			
+
 		</div>
 
+		<div class="bg-wrap" code-help="ItemName" gx-layer="">
+			<div class="code-help-con">
+				<div class="top">
+					<span>품번 선택</span>
+				</div>
+
+				<div class="data-container">
+					<div class="row">
+						<p class="c-name">검색어</p>
+						<div class="field ch-search">
+							<div class="input">
+								<input type="text" name="ItemName" v-model="codeHelp.ItemName" @click="focusCodeHelp('ItemName');"
+									@change="focusCodeHelp('ItemName');">
+							</div>
+							<button class="btn-search" @click="searchCodeHelp('ItemName');"></button>
+						</div>
+					</div>
+				</div>
+
+				<div class="table-container">
+
+					<div class="pagination-row">
+						<div class="pagination">
+							<a href="javascript:void(0);" class="btn-prev" @click="pagingCodeHelp('ItemName','prev');"></a>
+							<div class="num-box">
+								<input class="current" type="text" name="PageCount" value="1" @change="searchCodeHelp('ItemName');">
+								<span class="slash">/</span>
+								<span>20</span>
+							</div>
+							<a href="javascript:void(0);" class="btn-next" @click="pagingCodeHelp('ItemName','next');"></a>
+						</div>
+						<div class="combo">
+							<select name="PageSize" @change="searchCodeHelp('ItemName');">
+								<option value="50">50개씩 보기</option>
+								<option value="100">100개씩 보기</option>
+								<option value="150">150개씩 보기</option>
+								<option value="200">200개씩 보기</option>
+								<option value="250">250개씩 보기</option>
+								<option value="300">300개씩 보기</option>
+								<option value="350">350개씩 보기</option>
+								<option value="400">400개씩 보기</option>
+								<option value="450">450개씩 보기</option>
+								<option value="500">500개씩 보기</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="table th-02">
+						<table>
+							<thead>
+								<tr>
+									<td>번호</td>
+									<td>LotNo</td>
+									<td>품번</td>
+									<td>품명</td>
+									<td>규격</td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="(row, index) in rows.ItemNameListQuery" :class="{ active: activeRow === index }" @click="isActive(index);">
+									<td class="text-c">{{row.SerialNo}}</td>
+									<td class="text-c">{{row.LotNo}}</td>
+									<td class="text-c">{{row.ItemNo}}</td>
+									<td class="text-c">{{row.ItemName}}</td>
+									<td class="text-c">{{row.Spec}}</td>
+								</tr>
+								
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+
+				<div class="btn-row">
+					<button class="btn-style-07" @click="closeCodeHelp('ItemName');">닫기</button>
+					<button class="btn-style-08" @click="selectedApplyCodeHelp('ItemName');">확인</button>
+				</div>
+		
+			</div>
+		</div>
 		<div class="bg-wrap" code-help="WHName" gx-layer="">
 			<div class="code-help-con">
 				<div class="top">
@@ -267,6 +266,7 @@
 		
 			</div>
 		</div>
+
 	</div>
 </body>
 <script src="js/app.js?v=1652769578524" defer=""></script>

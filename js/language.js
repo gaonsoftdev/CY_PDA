@@ -44,19 +44,22 @@ GX.LANGS = {
             button: ['납품처리'],
             column: ['공정코드', '공정명', '선택'],
         },
-        inputItem: {
-            title: '투입품목조회',
-            search: ['지시번호'],
-            button: ['선택'],
-            column: ['품목코드', '품명', 'Select', 'LotNo', '기준수량'],
-        },
-        inputMaterialInfo: {
-            title: '투입자재정보',
-            search: ['기준수량', '투입수량'],
-            button: ['저장'],
+
+        inventoryRegistration: {
+            title: '재고실사등록',
+            search: ['Lot No.', '품명', '품번', '규격', '처리일', '실사수량', '창고'],
+            button: ['실사등록'],
             column: ['LotNo', '입고일자', '재고', '투입'],
             msg: ['상/하한치를 초과한 데이터가 있습니다. 저장 하시겠습니까?', '입력된 투입 수량이 없습니다.'],
         },
+        inventoryCountingDetailsInquiry: {
+            title: 'LOT재고실사내역 조회',
+            search: ['실사일'],
+            button: ['조회'],
+            column: ['번호', '실사일', '창고', '품번', '품명', '규격', '장부수량', '실사수량', '단위', 'Lot No.'],
+        },
+
+
         workOrder: {
             menu:'작업지시',
             title: '작업지시',

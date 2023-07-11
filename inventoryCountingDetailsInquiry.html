@@ -60,24 +60,13 @@
 							gx-datepicker="queryForm.PODateTo" gx-default="" readonly>
 					</div>
 				</div>
-				<div class="row">
-					<p class="c-name">{{lang.search[1]}}</p>
-					<div class="field">
-						<input type="text" v-model="queryForm.CustSeq" gx-scanner="Y" >
-					</div>
+				<div class="text-r">
+					<button class="btn-style-03" @click="POsel();">{{lang.button[0]}}</button>
 				</div>
-				<div class="row">
-					<p class="c-name">{{lang.search[2]}}</p>
-					<div class="field search">
-						<div class="input">
-							<input type="text" v-model="queryForm.ItemNo" gx-scanner="Y">
-						</div>
-						<button class="btn-style-03" @click="POsel();">{{lang.button[0]}}</button>
-					</div>
-				</div>
+				
 			</div>
 			<div class="table-container">
-				<div class="table">
+				<div class="table th-03">
 					<table>
 						<thead>
 							<tr>
@@ -89,6 +78,8 @@
 								<td>{{lang.column[5]}}</td>
 								<td>{{lang.column[6]}}</td>
 								<td>{{lang.column[7]}}</td>
+								<td>{{lang.column[8]}}</td>
+								<td>{{lang.column[9]}}</td>
 							</tr>
 						</thead>
 						<tbody v-for="(row, index) in rows.ItemList">
@@ -96,11 +87,13 @@
 								<td class="text-c">{{index+1}}</td>
 								<td class="text-c">{{row.PODate}}</td>
 								<td class="text-c">{{row.CustName}}</td>
-								<td class="text-c">{{row.PONo}}</td>
 								<td >{{row.ItemNo}}</td>
 								<td >{{row.ItemName}}</td>
 								<td >{{row.Spec}}</td>
+								<td class="text-c">{{row.PONo}}</td>
 								<td class="text-r">{{row.Qty}}</td>
+								<td class="text-r">{{row.Qty}}</td>
+								<td>{{row.Qty}}</td>
 							</tr>
 							
 						</tbody>

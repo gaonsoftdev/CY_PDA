@@ -66,7 +66,7 @@ var app = new Vue({
 				"PODateFr": this.queryForm.PODateFr.replaceAll('-',''),
 				"PODateTo": this.queryForm.PODateTo.replaceAll('-',''),
 				"CustSeq": this.queryForm.CustSeq == '' ? 0:this.queryForm.CustSeq,
-				"ItemNo": this.queryForm.ItemNo == '' ? '':this.queryForm.ItemNo,
+				"ItemNo": this.queryForm.ItemNo == '' ? 0:this.queryForm.ItemNo,
 				// "CustName": this.queryForm.CustName,
 			};
 			GX._METHODS_
@@ -213,15 +213,12 @@ var app = new Vue({
 			var vThis = this;
 			if (vThis.queryForm2.DelvDate == '') {
 				alert(vThis.lang.search[5] + '을(를) 입력해주세요');
-				return;
 			}
 			if (vThis.queryForm2.Qty == '') {
 				alert(vThis.lang.search[6] + '을(를) 입력해주세요');
-				return;
 			}
 			if (vThis.queryForm2.WHName == '') {
 				alert(vThis.lang.search[7] + '을(를) 입력해주세요');
-				return;
 			}
 			let params = {
 				"POSeq": vThis.queryForm2.POSeq,
@@ -661,7 +658,7 @@ var app = new Vue({
 
 		GX.NumberType.init(GX._DATAS_.convertRules);
 
-		this.POsel();
+		// this.POsel();
 
 	},
 	created(){
