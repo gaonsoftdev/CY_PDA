@@ -31,6 +31,19 @@ GX.LANGS = {
             pageUrls2:'물류관리',
             pageUrls3:'용기관리',
         },
+        productShipmentTargetInquiry:{
+            title: '제품출고대상 조회 ',
+            search: ['거래서명세일', '거래처', '납품서번호'],
+            button: ['조회'],
+            column: ['번호', '거래서명세일', '거래처', '납품서번호', '비고'],
+        },
+        productForwardingProcessing:{
+            title: '제품출고처리',
+            search: ['Lot No.'],
+            button: ['출고처리(수량불일치)', '출고처리', '출고취소', '닫기'],
+            column: ['번호', '품번', '수량', '스캔수량'],
+        },
+
         purchaseOrderItemInquiry: {
             menu:'자재투입',
             title: '구매발주품목 조회',
@@ -39,18 +52,37 @@ GX.LANGS = {
             column: ['번호', '발주일', '거래처', '발주번호', '자재번호', '자재명', '규격', '수량'],
         },
         purchaseDeliveryProcessing: {
-            title: '구매납품처리 ',
+            title: '구매납품처리',
             search: ['발주일', '거래처', '자재번호', '자재명', '규격', '납품일', '수량', '입고창고', '거래처Lot No.'],
             button: ['납품처리'],
             column: ['공정코드', '공정명', '선택'],
+        },
+
+        materialForwardingRequestItemInquiry:{
+            title: '자재출고요청품목 조회',
+            search: ['요청일'],
+            button: ['조회'],
+            column: ['번호', '요청일', '워크센터', '자재번호', '자재명', '규격', '요청수량'],
+        },
+        materialForwardingProcessing:{
+            title: '자재출고처리',
+            search: ['Lot No.', '출고창고', '자재번호', '자재명', '규격', '출고일', '수량', '입고창고'],
+            button: ['출고처리'],
+            column: [],
+        },
+        materialForwardingProcessingUnplanned:{
+            title: '자재출고처리(미계획분)',
+            search: ['Lot No.', '출고창고', '자재번호', '자재명', '규격', '출고일', '수량', '입고창고'],
+            button: ['출고처리'],
+            column: [],
         },
 
         inventoryRegistration: {
             title: '재고실사등록',
             search: ['Lot No.', '품명', '품번', '규격', '처리일', '실사수량', '창고'],
             button: ['실사등록'],
-            column: ['LotNo', '입고일자', '재고', '투입'],
-            msg: ['상/하한치를 초과한 데이터가 있습니다. 저장 하시겠습니까?', '입력된 투입 수량이 없습니다.'],
+            column: [],
+            msg: [],
         },
         inventoryCountingDetailsInquiry: {
             title: 'LOT재고실사내역 조회',
@@ -60,98 +92,7 @@ GX.LANGS = {
         },
 
 
-        workOrder: {
-            menu:'작업지시',
-            title: '작업지시',
-            search: ['일자', '워크센터'],
-            button: ['저장'],
-            column: ['품명', 'Lot No', '선택', '수량'],
-        },
-        workOrderPacking: {
-            title: '포장품목 정보',
-            search: ['품명'],
-            button: ['저장'],
-            column: ['삭제', '번호', '바코드', '수량'],
-        },
-        packingPerformance: {
-            menu: '포장실적',
-            title: '포장실적',
-            search: ['일자', '위크센터'],
-            button: ['저장'],
-            column: ['품명', 'Lot No', '선택', '수량'],
-        },
-        packagingItemInfo: {
-            title: '포장품목 정보',
-            search: ['제품', '용기', '품명'],
-            button: ['저장'],
-            column: ['X', 'No', '용기번호', '포장수량'],
-            msg: ['동일한 제품이 등록되어있습니다.', '동일한 용기가 등록되어있습니다.',
-                '포장수량과 지시수량이 일치하지 않습니다.', '입력된 포장품목이 없습니다.'],
-        },
-        materialForwarding: {
-            menu: '생산자재불출',
-            title: '자재출고처리',
-            search: ['일자', '요청번호', '출고창고'],
-            button: ['저장'],
-            column: ['삭제', '번호', '자재번호', '자재명', '수량', 'LotNo'],
-        },
-        materialTransfer: {
-            menu: '자재이동',
-            title: '자재이동',
-            search: ['일자', '출고창고', '입고창고'],
-            button: ['저장'],
-            column: ['삭제', '번호', '자재번호', '자재명', '수량', 'LotNo'],
-        },
-        forwardingInfo: {
-            menu: '출하완료',
-            title: '출고정보',
-            search: ['일자', '제품라벨', '요청번호', '출고창고'],
-            button: ['저장'],
-            column: ['삭제', '번호', '용기번호', '용기명', '수량', '제품명', 'LotNo'],
-        },
-        received: {
-            menu: '입고완료',
-            title: '입고완료',
-            menu2: '세척완료',
-            title2: '세척완료',
-            search: ['일자', '창고'],
-            button: ['저장'],
-            column: ['삭제', '번호', '용기번호', '제품명'],
-        },
-        containerRepair: {
-            menu: '용기수리',
-            title: '용기수리',
-            search: ['일자', '수리구분'],
-            button: ['저장'],
-            column: ['삭제', '번호', '바코드'],
-        },
-        containerMovement: {
-            menu: '용기이동',
-            title: '용기이동',
-            search: ['일자', '이동구분', '출고창고', '입고창고'],
-            button: ['저장'],
-            column: ['삭제', '번호', '용기번호', '제품명'],
-        },
-        containerSale: {
-            menu: '용기매각',
-            title: '용기매각',
-            search: ['일자', '창고'],
-            button: ['저장'],
-            column: ['품명', '수량', '선택'],
-        },
-        containerInfo: {
-            title: '용기매각',
-            search: [],
-            button: ['저장'],
-            column: ['삭제', '번호', '바코드'],
-        },
-        containerInspection: {
-            menu: '용기실사',
-            title: '용기실사',
-            search: ['일자', '- 차주 -', '실사창고', '제품라벨', '실시사유'],
-            button: ['저장'],
-            column: ['삭제', '번호', '바코드'],
-        },
+        
     },
     2: {
         defaultSel: '- Select -',

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<meta http-equiv="Expires" content="Mon, 06 Jan 1990 00:00:01 GMT">
+	<!--# 위의 명시된 날짜 이후가 되면 페이지가 캐싱되지 않습니다.
+    (따라서 위와 같은 날짜로 지정할 경우 페이지는 지속적으로 캐싱되지 않습니다.)-->
+	<meta http-equiv="Expires" content="-1">
+	<!--# 캐시된 페이지가 만료되어 삭제되는 시간을 정의합니다. 특별한 경우가 아니면 -1로 설정합니다.-->
+	<meta http-equiv="Pragma" content="no-cache">
+	<!--# 페이지 로드시마다 페이지를 캐싱하지 않습니다. (HTTP 1.0)-->
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<!--# 페이지 로드시마다 페이지를 캐싱하지 않습니다. (HTTP 1.1)
+    출처: https://coding-restaurant.tistory.com/339 [코딩맛집:티스토리]-->
+
+	<title>자재출고처리(미계획분)</title>
+	<link rel="stylesheet" href="css/setup.css?v=20230414">
+	<link rel="stylesheet" href="css/style.css?v=20230414">
+	<link rel="stylesheet" href="css/date_picker.css?v=20230414">
+	<link rel="stylesheet" href="css/util.css?v=20230414">
+	<style>
+		/*
+		[v-cloak] .v-cloak--hidden{
+		  display: none;
+		}
+		*/
+		[v-cloak] {
+			display: none;
+		}
+	</style>
+</head>
+
+<body>
+	<div v-cloak id="app">
+		<div page-layer="materialForwardingProcessingUnplanned">
+
+			<div class="top data-page">
+				<div>
+					<div class="img" onclick="history.back();">
+						<img src="img/btn_back.png">
+					</div>
+					<span>{{lang.title}}</span>
+				</div>
+				<a onclick="history.back();">
+					<img src="img/home.png">
+				</a>
+			</div>
+			<div class="registration">
+				<div class="row-wrap">
+					<div class="row">
+						<p class="c-name">{{lang.search[0]}}</p>
+						<div class="field">
+							<div class="input scan">
+								<input type="text" name="LotNo" v-model="queryForm.LotNo" gx-scanner="Y">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row-wrap">
+					<div class="row">
+						<p class="c-name">{{lang.search[1]}}</p>
+						<div class="field">
+							<input type="text" name="OutWHName" v-model="queryForm.OutWHName" readonly>
+						</div>
+					</div>
+					<div class="row">
+						<p class="c-name">{{lang.search[2]}}</p>
+						<div class="field">
+							<input type="text" v-model="queryForm.ItemNo" readonly>
+						</div>
+					</div>
+					<div class="row">
+						<p class="c-name">{{lang.search[3]}}</p>
+						<div class="field">
+							<input type="text" v-model="queryForm.ItemName" readonly>
+						</div>
+					</div>
+					<div class="row">
+						<p class="c-name">{{lang.search[4]}}</p>
+						<div class="field">
+							<input type="text" v-model="queryForm.Spec" readonly>
+						</div>
+					</div>
+				</div>
+				<div class="row-wrap">
+					<div class="row">
+						<p class="c-name">{{lang.search[5]}}<span class="essential"></span></p>
+						<div class="field date">
+							<input type="text" name="MatOutDate" v-model.trim="queryForm.MatOutDate" value="" validate="required:일자를 입력해주세요!"
+							gx-datepicker="queryForm.MatOutDate" gx-default="" readonly>
+						</div>
+					</div>
+			
+					<div class="row">
+						<p class="c-name">{{lang.search[6]}}<span class="essential"></span></p>
+						<div class="field num">
+							<input class="text-r" type="text" v-model="queryForm.Qty" gx-scanner="Y">
+							<span class="unit" gx-scanner="Y">KG</span>
+						</div>
+					</div>
+		
+					<div class="row">
+						<p class="c-name">{{lang.search[7]}}<span class="essential"></span></p>
+						<div class="field code-help">
+							<input type="text" name="InWHName" v-model="queryForm.InWHName" gx-scanner="Y" readonly @click="openCodeHelp();">
+						</div>
+					</div>
+				</div>
+				
+			</div>
+			<div class="btn-row">
+				<button class="btn-style-04" @click="save();">{{lang.button[0]}}</button>
+			</div>
+
+		</div>
+
+		<div class="bg-wrap" code-help="ItemName" gx-layer="">
+			<div class="code-help-con">
+				<div class="top">
+					<span>품번 선택</span>
+				</div>
+
+				<div class="data-container">
+					<div class="row">
+						<p class="c-name">검색어</p>
+						<div class="field ch-search">
+							<div class="input">
+								<input type="text" name="ItemName" v-model="codeHelp.ItemName" @click="focusCodeHelp('ItemName');"
+									@change="focusCodeHelp('ItemName');">
+							</div>
+							<button class="btn-search" @click="searchCodeHelp('ItemName');"></button>
+						</div>
+					</div>
+				</div>
+
+				<div class="table-container">
+
+					<div class="pagination-row">
+						<div class="pagination">
+							<a href="javascript:void(0);" class="btn-prev" @click="pagingCodeHelp('ItemName','prev');"></a>
+							<div class="num-box">
+								<input class="current" type="text" name="PageCount" value="1" @change="searchCodeHelp('ItemName');">
+								<span class="slash">/</span>
+								<span>20</span>
+							</div>
+							<a href="javascript:void(0);" class="btn-next" @click="pagingCodeHelp('ItemName','next');"></a>
+						</div>
+						<div class="combo">
+							<select name="PageSize" @change="searchCodeHelp('ItemName');">
+								<option value="50">50개씩 보기</option>
+								<option value="100">100개씩 보기</option>
+								<option value="150">150개씩 보기</option>
+								<option value="200">200개씩 보기</option>
+								<option value="250">250개씩 보기</option>
+								<option value="300">300개씩 보기</option>
+								<option value="350">350개씩 보기</option>
+								<option value="400">400개씩 보기</option>
+								<option value="450">450개씩 보기</option>
+								<option value="500">500개씩 보기</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="table th-02">
+						<table>
+							<thead>
+								<tr>
+									<td>번호</td>
+									<td>LotNo</td>
+									<td>품번</td>
+									<td>품명</td>
+									<td>규격</td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="(row, index) in rows.ItemNameListQuery" :class="{ active: activeRow === index }" @click="isActive(index);">
+									<td class="text-c">{{row.SerialNo}}</td>
+									<td class="text-c">{{row.LotNo}}</td>
+									<td class="text-c">{{row.ItemNo}}</td>
+									<td class="text-c">{{row.ItemName}}</td>
+									<td class="text-c">{{row.Spec}}</td>
+								</tr>
+								
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+
+				<div class="btn-row">
+					<button class="btn-style-07" @click="closeCodeHelp('ItemName');">닫기</button>
+					<button class="btn-style-08" @click="selectedApplyCodeHelp('ItemName');">확인</button>
+				</div>
+		
+			</div>
+		</div>
+		<div class="bg-wrap" code-help="InWHName" gx-layer="">
+			<div class="code-help-con">
+				<div class="top">
+					<span>창고 선택</span>
+				</div>
+
+				<div class="data-container">
+					<div class="row">
+						<p class="c-name">검색어</p>
+						<div class="field ch-search">
+							<div class="input">
+								<input type="text" name="InWHName" v-model="codeHelp.InWHName" @click="focusCodeHelp('InWHName');"
+									@change="focusCodeHelp('InWHName');">
+							</div>
+							<button class="btn-search" @click="searchCodeHelp('InWHName');"></button>
+						</div>
+					</div>
+				</div>
+
+				<div class="table-container">
+
+					<div class="pagination-row">
+						<div class="pagination">
+							<a href="javascript:void(0);" class="btn-prev" @click="pagingCodeHelp('InWHName','prev');"></a>
+							<div class="num-box">
+								<input class="current" type="text" name="PageCount" value="1" @change="searchCodeHelp('InWHName');">
+								<span class="slash">/</span>
+								<span>20</span>
+							</div>
+							<a href="javascript:void(0);" class="btn-next" @click="pagingCodeHelp('InWHName','next');"></a>
+						</div>
+						<div class="combo">
+							<select name="PageSize" @change="searchCodeHelp('InWHName');">
+								<option value="50">50개씩 보기</option>
+								<option value="100">100개씩 보기</option>
+								<option value="150">150개씩 보기</option>
+								<option value="200">200개씩 보기</option>
+								<option value="250">250개씩 보기</option>
+								<option value="300">300개씩 보기</option>
+								<option value="350">350개씩 보기</option>
+								<option value="400">400개씩 보기</option>
+								<option value="450">450개씩 보기</option>
+								<option value="500">500개씩 보기</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="table th-02">
+						<table>
+							<thead>
+								<tr>
+									<td>번호</td>
+									<td>창고</td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="(row, index) in rows.InWHNameListQuery" :class="{ active: activeRow === index }" @click="isActive(index);">
+									<td class="text-c">{{row.SerialNo}}</td>
+									<td class="text-c">{{row.WHName}}</td>
+								</tr>
+								
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+
+				<div class="btn-row">
+					<button class="btn-style-07" @click="closeCodeHelp('InWHName');">닫기</button>
+					<button class="btn-style-08" @click="selectedApplyCodeHelp('InWHName');">확인</button>
+				</div>
+		
+			</div>
+		</div>
+
+	</div>
+</body>
+<script src="js/app.js?v=1652769578524" defer=""></script>
+</html>

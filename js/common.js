@@ -63,8 +63,8 @@ GX._DATAS_ = {
 	pageUrls:{
 		'1':{link:'productShipmentTargetInquiry.html', icon:'img/ic_mainmenu_01.png', groupTitle:'메인메뉴', subTitle:'제품풀고처리'},
 		'2':{link:'purchaseOrderItemInquiry.html', icon:'img/ic_mainmenu_02.png', groupTitle:'메인메뉴', subTitle:'구매납품입력'}, 
-		'3':{link:'#', icon:'img/ic_mainmenu_03.png', groupTitle:'메인메뉴', subTitle:'자재출고처리'}, 
-		'4':{link:'#', icon:'img/ic_mainmenu_04.png', groupTitle:'제품추적관리', subTitle:'자재출고처리(미계획분)'}, 
+		'3':{link:'materialForwardingRequestItemInquiry.html', icon:'img/ic_mainmenu_03.png', groupTitle:'메인메뉴', subTitle:'자재출고처리'}, 
+		'4':{link:'materialForwardingProcessingUnplanned.html', icon:'img/ic_mainmenu_04.png', groupTitle:'제품추적관리', subTitle:'자재출고처리(미계획분)'}, 
 		'5':{link:'inventoryRegistration.html', icon:'img/ic_mainmenu_05.png', groupTitle:'제품추적관리', subTitle:'재고실사등록'},
 		'6':{link:'inventoryCountingDetailsInquiry.html', icon:'img/ic_mainmenu_06.png', groupTitle:'제품추적관리', subTitle:'LOT재고실사내역조회'}, 
 		// '7':{link:'packRework.html', icon:'img/ic_mainmenu_07.png', groupTitle:'제품추적관리', subTitle:'팩재작업'}, 

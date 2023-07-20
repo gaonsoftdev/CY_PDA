@@ -21,10 +21,8 @@ var app = new Vue({
 		},
 		activeRow:'',
 		queryForm:{
-			DateFr: GX.formatDate(new Date(), 'Y-M')+'-01', //GX.formatDate(GX.nowDate().full, 'Y-M-D'),
-			DateTo: GX.formatDate(new Date(), 'Y-M-D'), //GX.formatDate(GX.nowDate().full, 'Y-M-D'),
-			CustSeq: '',
-			ItemNo: '',
+			ReqDateFr: GX.formatDate(new Date(), 'Y-M-D'), //GX.formatDate(GX.nowDate().full, 'Y-M-D'),
+			ReqDateTo: GX.formatDate(new Date(), 'Y-M-D'), //GX.formatDate(GX.nowDate().full, 'Y-M-D'),
 		},
 		queryForm2: {
 			PONo: '',
@@ -63,11 +61,11 @@ var app = new Vue({
 		sel: function(){
 			var vThis = this;
 			let params = {
-				"DateFr": this.queryForm.DateFr.replaceAll('-',''),
-				"DateTo": this.queryForm.DateTo.replaceAll('-',''),
+				"ReqDateFr": this.queryForm.ReqDateFr.replaceAll('-',''),
+				"ReqDateTo": this.queryForm.ReqDateTo.replaceAll('-',''),
 			};
 			GX._METHODS_
-			.setMethodId('Genuine.cycModuleName.BisLGLotStockListAPI_cyc/Query')
+			.setMethodId('Genuine.cycModuleName.BisPDMMOutReqItemListAPI_cyc/Query')
 			.ajax([params], [function (data) {
 				console.log(data);
 				if (data[0] != null) {
@@ -78,37 +76,48 @@ var app = new Vue({
 			}], true);
 			
 		},
-		//구매납품처리
-		purchaseDeliveryProcessing: function(index){
+		selectLotNo: function(){
 			var vThis = this;
-			var obj1 = document.querySelector('[page-layer="purchaseOrderItemInquiry"]');
-			var obj2 = document.querySelector('[page-layer="purchaseDeliveryProcessing"]');
+			let params = {
+				"ItemSeq": this.queryForm2.ItemSeq,
+				"OutWHSeq": this.queryForm2.OutWHSeq,
+				"LotNo": this.queryForm2.LotNo,
+			};
+			GX._METHODS_
+			.setMethodId('Genuine.cycModuleName.BisPDMMOutProcAPI_cyc/LotNoScan')
+			.ajax([params], [function (data) {
+				console.log(data);
+				if(data.length == 0){
+					vThis.queryForm2.LotNo = '';
+					alert('출고요청품목이 아닙니다.');
+				}
+			}], true);
+		},
+		//자재출고처리
+		materialForwardingProcessing: function(index){
+			var vThis = this;
+			var obj1 = document.querySelector('[page-layer="materialForwardingRequestItemInquiry"]');
+			var obj2 = document.querySelector('[page-layer="materialForwardingProcessing"]');
 			document.body.style.overflow = 'hidden';
 			obj1.style.display = 'none';
 			obj2.style.display = 'block';
-			this.lang = GX.LANGS[GX.Cookie.get('lang')]['purchaseDeliveryProcessing'];
+			this.lang = GX.LANGS[GX.Cookie.get('lang')]['materialForwardingProcessing'];
 
 			vThis.queryForm2.PONo = this.rows.ItemList[index].PONo;
 			for (key in this.rows.ItemList[index]) {
 				vThis.queryForm2[key] = this.rows.ItemList[index][key];
 			}
 			let params = {
-				"POSeq": vThis.rows.ItemList[index].POSeq,
-				"POSerl": vThis.rows.ItemList[index].POSerl,
+				"OutReqSeq": vThis.rows.ItemList[index].OutReqSeq,
+				"OutReqItemSerl": vThis.rows.ItemList[index].OutReqItemSerl,
 			};
 			GX._METHODS_
-			.setMethodId('Genuine.cycModuleName.BisPDDelvAPI_cyc/JumpQuery')
+			.setMethodId('Genuine.cycModuleName.BisPDMMOutReqItemListAPI_cyc/JumpQuery')
 			.ajax([params], [function (data) {
 				console.log(data);
 				if (data[0] != null) {
 					if (data[0].Status == 0) {
-						vThis.queryForm2.PODate = data[0].PODate;
-						vThis.queryForm2.CustName = data[0].CustName;
-						vThis.queryForm2.ItemNo = data[0].ItemNo;
-						vThis.queryForm2.ItemName = data[0].ItemName;
-						vThis.queryForm2.Spec = data[0].Spec;
-						vThis.queryForm2.DelvDate = data[0].DelvDate;
-						vThis.queryForm2.Qty = data[0].Qty;
+						vThis.queryForm2 = data[0];
 					} else {
 
 					}
@@ -116,15 +125,15 @@ var app = new Vue({
 			}], true);
 		},
 		//구매발주품목조회
-		purchaseOrderItemInquiry: function () { 
-			var obj1 = document.querySelector('[page-layer="purchaseOrderItemInquiry"]');
-			var obj2 = document.querySelector('[page-layer="purchaseDeliveryProcessing"]');
+		materialForwardingRequestItemInquiry: function () { 
+			var obj1 = document.querySelector('[page-layer="materialForwardingRequestItemInquiry"]');
+			var obj2 = document.querySelector('[page-layer="materialForwardingProcessing"]');
 			document.body.style.overflow = 'unset';
 			obj1.style.display = 'block';
 			obj2.style.display = 'none';
-			this.lang = GX.LANGS[GX.Cookie.get('lang')]['purchaseOrderItemInquiry'];
+			this.lang = GX.LANGS[GX.Cookie.get('lang')]['materialForwardingRequestItemInquiry'];
 			this.init();
-			this.POsel();
+			this.sel();
 		},
 		isActive: function(index){
 			this.activeRow = index;
@@ -204,24 +213,27 @@ var app = new Vue({
 		},
 		save: function(){
 			var vThis = this;
-			if (vThis.queryForm2.DelvDate == '') {
-				alert(vThis.lang.search[5] + '을(를) 입력해주세요');
-			}
-			if (vThis.queryForm2.Qty == '') {
-				alert(vThis.lang.search[6] + '을(를) 입력해주세요');
+			if (vThis.queryForm2.LotNo == '') {
+				alert(vThis.lang.search[0] + '을(를) 입력해주세요');
+				return;
 			}
 			if (vThis.queryForm2.WHName == '') {
 				alert(vThis.lang.search[7] + '을(를) 입력해주세요');
+				return;
 			}
 			let params = {
-				"POSeq": vThis.queryForm2.POSeq,
-				"POSerl": vThis.queryForm2.POSerl,
-				"CustSeq": vThis.queryForm2.CustSeq,
-				"ItemSeq": vThis.queryForm2.ItemSeq,
-				"DelvDate": vThis.queryForm2.DelvDate,
-				"Qty": vThis.queryForm2.Qty,
-				"WHSeq": vThis.queryForm2.WHSeq,
 				"LotNo": vThis.queryForm2.LotNo,
+				"ItemSeq": vThis.queryForm2.ItemSeq,
+				"OutWHSeq": vThis.queryForm2.OutWHSeq,
+				"Qty": vThis.queryForm2.Qty,
+
+				"InWHSeq": vThis.queryForm2.InWHSeq,
+				"WorkOrderSeq": vThis.queryForm2.WorkOrderSeq,
+				"WorkOrderSerl": vThis.queryForm2.WorkOrderSerl,
+				"OutReqSeq": vThis.queryForm2.OutReqSeq,
+				"OutReqGoodSerl": vThis.queryForm2.OutReqGoodSerl,
+				"OutReqItemSerl": vThis.queryForm2.OutReqItemSerl,
+				"MatOutDate": GX.formatDate(new Date(), 'YMD'),
 				"UserSeq": GX.Cookie.get('UserSeq'),
 			}; 
 			GX._METHODS_
@@ -230,7 +242,7 @@ var app = new Vue({
 				console.log(data);
 				if (data[0] != null) {
 					if (data[0].Status == 0) {
-						vThis.purchaseOrderItemInquiry();
+
 					} else {
 
 					}
@@ -249,25 +261,9 @@ var app = new Vue({
 		},
 		scanBarCode: function(){
 			var vThis = this;
-			let objAll = document.querySelectorAll('[gx-scanner="Y"]');
-			let obj;
-			if (objAll[0] == document.activeElement) {
-				obj = objAll[0];
-				if(this.queryForm.scan) {
-					this.queryForm.OutReqNo = '';
-					this.queryForm.scan = false;
-				}
-				obj.focus();
-			} else if(objAll[1] == document.activeElement || document.querySelector('input:focus') == null){
-				obj = objAll[1];
-				obj.focus();
-			} else {
-				
-			}
-			
-			// let clipboardData = event.clipboardData || window.clipboardData;
-			if(obj != null && obj.value != null && obj.value.length > 0 && event.keyCode == '13'){
-				let QRCodeData = obj.value;
+			let clipboardData = event.clipboardData || window.clipboardData;
+			if(clipboardData != null){
+				let QRCodeData = clipboardData.getData('Text');
 				this.queryForm.scan = true;
 				// obj.value = '';
 				let activeObjName = '';
@@ -277,15 +273,8 @@ var app = new Vue({
 				
 				let scannerObj = document.querySelectorAll('[gx-scanner="Y"]');
 					
-				//vThis.queryForm.BottleNo = QRCodeData.replaceAll(' ', '');
-				if (objAll[0] == document.activeElement) {
-					vThis.queryForm.OutReqNo = QRCodeData;
-					vThis.selectOutReqNo();
-				} else {
-					vThis.codeHelp.ItemNo = QRCodeData;
-					vThis.add();
-				}
-				
+				vThis.queryForm2.LotNo = QRCodeData;
+				vThis.selectLotNo();
 				
 				event.preventDefault();
 			}
@@ -608,7 +597,7 @@ var app = new Vue({
 			let obj = document.querySelector('[code-help="'+targetName+'"]');
 			document.body.style.overflow = 'unset';
 			obj.style.display = 'none';
-			document.querySelector('[page-layer="purchaseDeliveryProcessing"]').style.display = 'block';
+			document.querySelector('[page-layer="materialForwardingProcessing"]').style.display = 'block';
 		},
 		initPagingCodeHelp: function(targetName){
 			let pageCountObj = document.querySelector('[code-help="'+targetName+'"] [name="PageCount"]');
@@ -644,7 +633,7 @@ var app = new Vue({
 				if(keys.length == 1 && vThis[keys[0]] != null) vThis[keys[0]] = (result.length == 0) ? '' : GX.formatDate(result, info.format);
 				else if(keys.length == 2 && vThis[keys[0]][keys[1]] != null) vThis[keys[0]][keys[1]] = (result.length == 0) ? '' : GX.formatDate(result, info.format);
 				else if (keys.length == 3 && vThis[keys[0]][keys[1]][keys[2]] != null) vThis[keys[0]][keys[1]][keys[2]] = (result.length == 0) ? '' : GX.formatDate(result, info.format);
-				vThis.POsel();
+				vThis.sel();
 			}
 			
 		});//.set(2022, 1);
@@ -660,10 +649,10 @@ var app = new Vue({
 			const vThis = this;
 			//GX.SpinnerBootstrap.init();
 			GX.SpinnerBootstrap.init('loading', 'loading-wrap', '<div class="container"><img src="img/loading.gif" alt=""><span>처리중입니다...</span></div>');
-			document.querySelector('[page-layer="purchaseDeliveryProcessing"]').style.display = 'none';
+			document.querySelector('[page-layer="materialForwardingProcessing"]').style.display = 'none';
 
-			// this.queryForm.PODateFr = GX.formatDate(GX.nowDate().full, 'Y-M-D');
-			// this.queryForm.PODateTo = GX.formatDate(GX.nowDate().full, 'Y-M-D');
+			this.queryForm.PODateFr = GX.formatDate(GX.nowDate().full, 'Y-M-D');
+			this.queryForm.PODateTo = GX.formatDate(GX.nowDate().full, 'Y-M-D');
 
 			// vThis.queryForm.BizUnit = GX.Cookie.get('BizUnit');
 			// vThis.queryForm.BizUnitName = GX.Cookie.get('BizUnitName');
@@ -678,7 +667,7 @@ var app = new Vue({
 			// select box에 scannr enter evnet 막기 끝 /////////////
 
 			// 스캐너 입력이 하나인 경우 포커스 없이도 해당 스캔 입력박스에 스캔값 입력처리를 위한 이벤트
-			document.body.addEventListener('keydown', this.scanBarCode, false);
+			document.body.addEventListener('paste', this.scanBarCode, false);
 
 			// 다음 입력창 이동을 위한 tab index 부여 시작 /////////////
 			GX.TabIndex.indexing();

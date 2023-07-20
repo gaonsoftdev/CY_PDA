@@ -17,7 +17,7 @@
 	<!--# 페이지 로드시마다 페이지를 캐싱하지 않습니다. (HTTP 1.1)
     출처: https://coding-restaurant.tistory.com/339 [코딩맛집:티스토리]-->
 
-	<title>구매발주품목 조회</title>
+	<title>자재출고요청품목 조회</title>
 	<link rel="stylesheet" href="css/setup.css?v=20230414">
 	<link rel="stylesheet" href="css/style.css?v=20230414">
 	<link rel="stylesheet" href="css/date_picker.css?v=20230414">
@@ -36,7 +36,7 @@
 
 <body>
 	<div v-cloak id="app">
-		<div page-layer="purchaseOrderItemInquiry">
+		<div page-layer="materialForwardingRequestItemInquiry">
 
 			<div class="top data-page">
 				<div>
@@ -53,17 +53,16 @@
 				<div class="row">
 					<p class="c-name">{{lang.search[0]}}</p>
 					<div class="field date">
-						<input type="text" name="DateFr" v-model.trim="queryForm.DateFr" value="" validate="required:일자를 입력해주세요!"
-							gx-datepicker="queryForm.DateFr" gx-default="" readonly>
+						<input type="text" name="ReqDateFr" v-model.trim="queryForm.ReqDateFr" value="" validate="required:일자를 입력해주세요!"
+							gx-datepicker="queryForm.ReqDateFr" gx-default="" readonly>
 						-
-						<input type="text" name="DateTo" v-model.trim="queryForm.DateTo" value="" validate="required:일자를 입력해주세요!"
-							gx-datepicker="queryForm.DateTo" gx-default="" readonly>
+						<input type="text" name="ReqDateTo" v-model.trim="queryForm.ReqDateTo" value="" validate="required:일자를 입력해주세요!"
+							gx-datepicker="queryForm.ReqDateTo" gx-default="" readonly>
 					</div>
 				</div>
 				<div class="text-r">
-					<button class="btn-style-03" @click="POsel();">{{lang.button[0]}}</button>
+					<button class="btn-style-03">조회</button>
 				</div>
-				
 			</div>
 			<div class="table-container">
 				<div class="table th-03">
@@ -77,23 +76,17 @@
 								<td>{{lang.column[4]}}</td>
 								<td>{{lang.column[5]}}</td>
 								<td>{{lang.column[6]}}</td>
-								<td>{{lang.column[7]}}</td>
-								<td>{{lang.column[8]}}</td>
-								<td>{{lang.column[9]}}</td>
 							</tr>
 						</thead>
 						<tbody v-for="(row, index) in rows.ItemList">
-							<tr>
+							<tr @click="materialForwardingProcessing(index);">
 								<td class="text-c">{{index+1}}</td>
-								<td class="text-c">{{row.Date}}</td>
-								<td class="text-c">{{row.WHName}}</td>
+								<td class="text-c">{{row.ReqDate}}</td>
+								<td class="text-c">{{row.WorkCenterName}}</td>
 								<td >{{row.ItemNo}}</td>
 								<td >{{row.ItemName}}</td>
 								<td >{{row.Spec}}</td>
-								<td class="text-r">{{row.Qty1}}</td>
-								<td class="text-r">{{row.Qty2}}</td>
-								<td class="text-c">{{row.UnitName}}</td>
-								<td class="text-c">{{row.LotNo}}</td>
+								<td class="text-c">{{row.ReqQty}}</td>
 							</tr>
 							
 						</tbody>
@@ -102,31 +95,35 @@
 			</div>
 		</div>
 
-		<div page-layer="purchaseDeliveryProcessing">
+		<div page-layer="materialForwardingProcessing">
 			<div class="top data-page">
 				<div>
-					<div class="img" @click="purchaseOrderItemInquiry();">
+					<div class="img" @click="materialForwardingRequestItemInquiry();">
 						<img src="img/btn_back.png">
 					</div>
-					<span>{{lang.title}} [{{queryForm2.PONo}}]</span>
+					<span>{{lang.title}} [{{queryForm2.WorkOrderNo}}]</span>
 				</div>
 				<a onclick="history.back();">
 					<img src="img/home.png">
 				</a>
 			</div>
 			<div class="registration">
+
 				<div class="row-wrap">
 					<div class="row">
 						<p class="c-name">{{lang.search[0]}}</p>
-						<div class="field date">
-							<input type="text" name="PODate" v-model="queryForm2.PODate" readonly>
+						<div class="field">
+							<div class="input scan">
+								<input type="text" name="LotNo" v-model="queryForm2.LotNo" readonly>
+							</div>
 						</div>
 					</div>
-			
+				</div>
+				<div class="row-wrap">
 					<div class="row">
 						<p class="c-name">{{lang.search[1]}}</p>
 						<div class="field">
-							<input type="text" name="CustName" v-model="queryForm2.CustName" readonly>
+							<input type="text" name="OutWHName" v-model="queryForm2.OutWHName" readonly>
 						</div>
 					</div>
 					<div class="row">
@@ -148,11 +145,12 @@
 						</div>
 					</div>
 				</div>
+				
 				<div class="row-wrap">
 					<div class="row">
 						<p class="c-name">{{lang.search[5]}}<span class="essential"></span></p>
 						<div class="field date">
-							<input type="text" name="DelvDate" v-model="queryForm2.DelvDate">
+							<input type="text" name="MatOutDate" v-model="queryForm2.MatOutDate">
 						</div>
 					</div>
 			
@@ -171,14 +169,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="row-wrap">
-					<div class="row">
-						<p class="c-name">{{lang.search[8]}}</p>
-						<div class="field">
-							<input type="text" name="LotNo" v-model="queryForm2.LotNo">
-						</div>
-					</div>
-				</div>
+				
 			</div>
 			<div class="btn-row">
 				<button class="btn-style-04" @click="save();">{{lang.button[0]}}</button>
