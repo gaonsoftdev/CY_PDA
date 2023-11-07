@@ -4,6 +4,7 @@ var app = new Vue({
 	data:{
 		DeptName:GX.Cookie.get('DeptName'),
 		UserName:GX.Cookie.get('UserName'),
+		EmpName:GX.Cookie.get('EmpName'),
 		pageUrls:GX._DATAS_.pageUrls,
 		params: GX.getParameters(),
 		clusterIndexes:[],
@@ -33,6 +34,7 @@ var app = new Vue({
 			GX.Cookie.set('ReqBizUnit', '', 0);
 
 			GX.Cookie.set('EmpSeq', '', 0);
+			GX.Cookie.set('EmpName', '', 0);
 			GX.Cookie.set('UserSeq', '', 0);
 			GX.Cookie.set('UserName', '', 0);
 			GX.Cookie.set('DeptName', '', 0);

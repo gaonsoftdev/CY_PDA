@@ -51,8 +51,8 @@
             </div>
         
             <div class="access-alarm">
-                <p v-if="langSel=='1'">{{UserName}}님, 현재 {{DeptName}} 입니다. <button class="log-out" @click="logout();">로그아웃</button></p>
-                <p v-if="langSel=='2'">{{UserName}}, You're in {{DeptName}} <button class="log-out"  @click="logout();">LOGOUT</button></p>
+                <p v-if="langSel=='1'">{{EmpName}}님이 접속하셨습니다. <button class="log-out" @click="logout();">로그아웃</button></p>
+                <p v-if="langSel=='2'">hello {{EmpName}} <button class="log-out"  @click="logout();">LOGOUT</button></p>
             </div>
         </div>
     </div>

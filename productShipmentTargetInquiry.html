@@ -164,11 +164,11 @@
 			</div>
 			
 			<div class="btn-row">
-				<button class="btn-style-04" disabled v-if="saveButton">{{lang.button[0]}}</button>
+				<button class="btn-style-04" disabled v-if="saveButton==1">{{lang.button[0]}}</button>
 			</div>
 
 			<div class="btn-row">
-				<button class="btn-style-04" @click="save();" v-if="!saveButton">{{lang.button[1]}}</button>
+				<button class="btn-style-04" @click="save();" v-if="saveButton==2">{{lang.button[1]}}</button>
 			</div>
 
 			<div class="btn-forwarding-row">

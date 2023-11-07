@@ -20,7 +20,7 @@ var app = new Vue({
 			ItemList2: [],
 			WHNameListQuery: [],
 		},
-		saveButton:true,
+		saveButton:1,
 		activeRow:'',
 		queryForm:{
 			InvoiceDateFr: GX.formatDate(new Date(), 'Y-M-D'), //GX.formatDate(GX.nowDate().full, 'Y-M-D'),
@@ -99,7 +99,7 @@ var app = new Vue({
 					
 				}
 				if(vThis.rows.ItemList2.length == cnt){
-					vThis.saveButton = false;
+					vThis.saveButton = 2;
 				}
 				vThis.queryForm2.LotNo = '';
 			}], true);
@@ -129,7 +129,13 @@ var app = new Vue({
 				console.log(data);
 				if (data[0] != null) {
 					for(i in data){
-						data[i].ScanQty = 0;
+						if(data[i].IsDelvCfm == '0'){
+							data[i].ScanQty = 0;
+							vThis.saveButton = 1;
+						}else{
+							data[i].ScanQty = data[i].Qty;
+							document.querySelector('body').classList.add("forwarding");
+						}
 					}
 					vThis.rows.ItemList2 = data;
 				}
@@ -229,6 +235,26 @@ var app = new Vue({
 				console.log(data);
 				if (data[0] != null) {
 					if (data[0].Status == 0) {
+						let params = {
+							"InvoiceSeq": vThis.queryForm2.InvoiceSeq,
+						};
+						GX._METHODS_
+						.setMethodId('Genuine.cycModuleName.BisSLInvoiceDelvCfmAPI_cyc/JumpQuery')
+						.ajax([params], [function (data) {
+							console.log(data);
+							if (data[0] != null) {
+								for(i in data){
+									if(data[i].IsDelvCfm == '0'){
+										data[i].ScanQty = 0;
+										vThis.saveButton = 1;
+									}else{
+										data[i].ScanQty = data[i].Qty;
+										document.querySelector('body').classList.add("forwarding");
+									}
+								}
+								vThis.rows.ItemList2 = data;
+							}
+						}], true);
 						document.querySelector('body').classList.remove("forwarding");
 					} else {
 

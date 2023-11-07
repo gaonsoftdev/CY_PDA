@@ -633,7 +633,10 @@ var app = new Vue({
 				if(keys.length == 1 && vThis[keys[0]] != null) vThis[keys[0]] = (result.length == 0) ? '' : GX.formatDate(result, info.format);
 				else if(keys.length == 2 && vThis[keys[0]][keys[1]] != null) vThis[keys[0]][keys[1]] = (result.length == 0) ? '' : GX.formatDate(result, info.format);
 				else if (keys.length == 3 && vThis[keys[0]][keys[1]][keys[2]] != null) vThis[keys[0]][keys[1]][keys[2]] = (result.length == 0) ? '' : GX.formatDate(result, info.format);
-				vThis.sel();
+
+				if(GX.Calendar.openerName != 'MatOutDate'){
+					vThis.sel();
+				}
 			}
 			
 		});//.set(2022, 1);

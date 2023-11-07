@@ -19,9 +19,9 @@ var app = new Vue({
 	},
 	methods:{
 		autoSettings: function(){
-			let sDsn = 'knicdev_oper';
+			let sDsn = GX.Storage.get('gx_dsn') == null?'knicdev_oper':GX.Storage.get('gx_dsn');
 			let sWork = 'KNIC DEV';
-			let serverAddr = 'http://125.135.74.242';
+			let serverAddr = GX.Storage.get('gx_serverAddr') == null?'http://125.135.74.242':GX.Storage.get('gx_serverAddr');
 
 			console.log('mode',this.params.mode, GX._DATAS_.ajaxHeaders)
 			//let settingItems = {dsn:'knicdev_oper', work:'KNIC DEV', serverAddr:'http://192.168.205.20:8111', anotherDsn:''};
@@ -126,6 +126,7 @@ var app = new Vue({
 						GX.Cookie.set('BizUnitName', data[0].BizUnitName);
 						GX.Cookie.set('ReqBizUnit', data[0].BizUnit);//
 						GX.Cookie.set('EmpSeq', data[0].EmpSeq);//
+						GX.Cookie.set('EmpName', data[0].EmpName);//
 						GX.Cookie.set('UserSeq', data[0].UserSeq);//
 						GX.Cookie.set('UserName', data[0].UserName);
 						GX.Cookie.set('DeptName', data[0].DeptName);
